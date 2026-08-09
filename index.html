@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Site Attendance Management System">
+  <title>Site Attendance — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <main class="login-shell">
+    <section class="login-visual">
+      <div class="brand-mark"><span>SA</span></div>
+      <div>
+        <p class="eyebrow">SITE MANAGEMENT</p>
+        <h1>Attendance<br><span>made clearer.</span></h1>
+        <p class="hero-copy">A professional workspace for fingerprints, attendance, overtime and monthly reports.</p>
+      </div>
+      <div class="visual-footer">Fingerprint Intelligence · v1.0</div>
+    </section>
+    <section class="login-card">
+      <div class="lamp"><span></span></div>
+      <div class="card-head">
+        <p class="eyebrow">WELCOME BACK</p>
+        <h2>Sign in</h2>
+        <p>Choose your portal and enter your credentials.</p>
+      </div>
+      <form id="loginForm" novalidate>
+        <label class="field-label" for="role">Portal</label>
+        <div class="role-switch">
+          <button type="button" class="role-btn active" data-role="accountant">Accountant</button>
+          <button type="button" class="role-btn" data-role="employee">Employee</button>
+        </div>
+        <input type="hidden" id="role" value="accountant">
+
+        <label class="field-label" for="identity">Username / Employee Code</label>
+        <div class="input-wrap">
+          <span>◉</span>
+          <input id="identity" autocomplete="username" placeholder="e.g. accountant or 7636" required>
+        </div>
+
+        <label class="field-label" for="password">Password / PIN</label>
+        <div class="input-wrap">
+          <span>⌁</span>
+          <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+          <button class="show-password" type="button" id="togglePassword" aria-label="Show password">◉</button>
+        </div>
+
+        <button class="primary-btn" type="submit">
+          <span>Enter portal</span><span>→</span>
+        </button>
+        <p id="loginMessage" class="form-message"></p>
+      </form>
+      <div class="demo-note">
+        <strong>Demo access</strong>
+        Accountant: <code>accountant</code> / <code>1234</code><br>
+        Employee: <code>7636</code> / <code>1234</code>
+      </div>
+    </section>
+  </main>
+  <script src="js/auth.js"></script>
+</body>
+</html>

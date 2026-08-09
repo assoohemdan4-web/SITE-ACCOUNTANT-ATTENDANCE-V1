@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Attendance — Site Attendance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page employee-page">
+  <main class="employee-shell">
+    <header class="employee-top"><div class="sidebar-brand"><div class="brand-mark small"><span>SA</span></div><div><strong>SITE</strong><small>ATTENDANCE</small></div></div><button id="logoutBtn" class="ghost-btn">Sign out ↪</button></header>
+    <section class="employee-hero"><div><p class="eyebrow">MY ATTENDANCE</p><h1 id="empName">Employee</h1><p id="empMeta">Employee information</p></div><select id="monthSelect" class="select"></select></section>
+    <section class="kpi-grid">
+      <article class="kpi"><span>Present</span><strong id="present">0</strong><small>complete days</small></article>
+      <article class="kpi"><span>Late</span><strong id="late">0</strong><small>arrival / early leave</small></article>
+      <article class="kpi"><span>Overtime</span><strong id="overtime">00:00</strong><small>calculated OT</small></article>
+      <article class="kpi warning"><span>Review</span><strong id="review">0</strong><small>missing fingerprint cases</small></article>
+    </section>
+    <article class="panel"><div class="panel-head"><div><p class="eyebrow">MONTHLY LOG</p><h3>Attendance history</h3></div></div><div id="employeeTable" class="empty-state">No attendance data imported in this browser session.</div></article>
+  </main>
+  <script src="js/config.js"></script><script src="js/attendance.js"></script><script src="js/employee.js"></script>
+</body>
+</html>

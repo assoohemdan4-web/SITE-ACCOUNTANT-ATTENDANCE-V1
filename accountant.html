@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Accountant Portal — Site Attendance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-page">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="brand-mark small"><span>SA</span></div><div><strong>SITE</strong><small>ATTENDANCE</small></div></div>
+      <nav>
+        <button class="nav-item active" data-view="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-item" data-view="employees"><span>♙</span> Employees</button>
+        <button class="nav-item" data-view="import"><span>⇧</span> Import Fingerprints</button>
+        <button class="nav-item" data-view="attendance"><span>▦</span> Attendance</button>
+        <button class="nav-item" data-view="reports"><span>▤</span> Reports</button>
+        <button class="nav-item" data-view="rules"><span>⚙</span> Rules</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status-dot"><i></i> Local workspace</div>
+        <button id="logoutBtn" class="nav-item danger"><span>↪</span> Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><p class="eyebrow">ACCOUNTANT PORTAL</p><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions">
+          <select id="monthSelect" class="select"></select>
+          <div class="user-chip"><div class="avatar">A</div><div><strong>Accountant</strong><small id="currentUser">Local user</small></div></div>
+        </div>
+      </header>
+
+      <section id="view-dashboard" class="view active">
+        <div class="welcome-banner">
+          <div><p class="eyebrow">ATTENDANCE CONTROL CENTER</p><h2>Good evening 👋</h2><p>Review your attendance data and resolve anything that needs your decision.</p></div>
+          <button class="primary-btn compact" data-go="import">Import fingerprints <span>→</span></button>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi"><span>Employees</span><strong id="kpiEmployees">0</strong><small>loaded employee records</small></article>
+          <article class="kpi"><span>Fingerprint records</span><strong id="kpiFingerprints">0</strong><small>raw records in current session</small></article>
+          <article class="kpi"><span>Present</span><strong id="kpiPresent">0</strong><small>days with complete punches</small></article>
+          <article class="kpi warning"><span>Needs review</span><strong id="kpiReview">0</strong><small>missing / unresolved days</small></article>
+        </div>
+        <div class="grid-2">
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">QUICK ACTIONS</p><h3>Keep the workflow simple</h3></div></div>
+            <div class="quick-grid">
+              <button class="quick-card" data-go="import"><span>⇧</span><strong>Import Excel</strong><small>Load scanner fingerprints</small></button>
+              <button class="quick-card" data-go="employees"><span>♙</span><strong>Employees</strong><small>Browse employee records</small></button>
+              <button class="quick-card" data-go="attendance"><span>▦</span><strong>Attendance</strong><small>Review monthly results</small></button>
+              <button class="quick-card" data-go="reports"><span>▤</span><strong>Reports</strong><small>Open employee reports</small></button>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">WORKING RULES</p><h3>Current schedule</h3></div></div>
+            <div class="rule-list">
+              <div><span>Sun — Wed</span><strong>08:00 → 16:00</strong></div>
+              <div><span>Thursday</span><strong>08:00 → 14:00</strong></div>
+              <div><span>Saturday</span><strong>09:00 → 16:00</strong></div>
+              <div><span>Friday</span><strong>Weekly holiday</strong></div>
+              <div><span>Overtime</span><strong>Max ± 1 hour</strong></div>
+            </div>
+          </article>
+        </div>
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">REVIEW QUEUE</p><h3>Items requiring accountant attention</h3></div><span class="badge neutral" id="reviewBadge">0 items</span></div>
+          <div id="reviewTable" class="empty-state">Import a fingerprint file to populate the review queue.</div>
+        </article>
+      </section>
+
+      <section id="view-employees" class="view">
+        <div class="section-tools"><div><p class="eyebrow">DIRECTORY</p><h2>Employees</h2></div><input id="employeeSearch" class="search" placeholder="Search code, name, job..."></div>
+        <article class="panel"><div id="employeesTable"></div></article>
+      </section>
+
+      <section id="view-import" class="view">
+        <div class="section-tools"><div><p class="eyebrow">DATA INGESTION</p><h2>Import fingerprints</h2></div></div>
+        <article class="upload-card">
+          <div class="upload-icon">⇧</div>
+          <h3>Import the scanner Excel file</h3>
+          <p>Supports .xlsx and .xls. The engine looks for ID and Date/Time columns and keeps the original records in memory.</p>
+          <label class="primary-btn file-btn">Choose Excel file<input id="excelInput" type="file" accept=".xlsx,.xls"></label>
+          <div id="importResult" class="import-result"></div>
+        </article>
+        <div class="grid-2">
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">PROCESSING MODEL</p><h3>How the engine works</h3></div></div>
+            <ol class="steps"><li><b>Read</b> raw scanner rows.</li><li><b>Normalize</b> dates, times and employee IDs.</li><li><b>Group</b> records by employee + day.</li><li><b>Take first / last</b> fingerprint only.</li><li><b>Apply</b> schedule and overtime rules.</li><li><b>Flag</b> cases that require your decision.</li></ol>
+          </article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">DATA SAFETY</p><h3>Original data stays untouched</h3></div></div>
+            <p class="muted">The application separates raw fingerprints from calculated attendance and from accountant decisions. This keeps corrections auditable and prevents a manual decision from rewriting the original scanner data.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-attendance" class="view">
+        <div class="section-tools"><div><p class="eyebrow">MONTHLY CONTROL</p><h2>Attendance</h2></div><input id="attendanceSearch" class="search" placeholder="Employee code or name..."></div>
+        <article class="panel"><div id="attendanceTable" class="empty-state">Import fingerprints first.</div></article>
+      </section>
+
+      <section id="view-reports" class="view">
+        <div class="section-tools"><div><p class="eyebrow">EMPLOYEE REPORTS</p><h2>Monthly reports</h2></div><select id="reportEmployee" class="select"></select></div>
+        <article id="reportPanel" class="panel report-panel"><div class="empty-state">Select an employee to view a report.</div></article>
+      </section>
+
+      <section id="view-rules" class="view">
+        <div class="section-tools"><div><p class="eyebrow">BUSINESS LOGIC</p><h2>Attendance rules</h2></div></div>
+        <div class="grid-2">
+          <article class="panel rule-editor"><h3>Weekly schedule</h3>
+            <div class="rule-row"><span>Sunday</span><input value="08:00"><input value="16:00"></div>
+            <div class="rule-row"><span>Monday</span><input value="08:00"><input value="16:00"></div>
+            <div class="rule-row"><span>Tuesday</span><input value="08:00"><input value="16:00"></div>
+            <div class="rule-row"><span>Wednesday</span><input value="08:00"><input value="16:00"></div>
+            <div class="rule-row"><span>Thursday</span><input value="08:00"><input value="14:00"></div>
+            <div class="rule-row"><span>Friday</span><input value="OFF" disabled><input value="08:00–16:00 if attended" disabled></div>
+            <div class="rule-row"><span>Saturday</span><input value="09:00"><input value="16:00"></div>
+          </article>
+          <article class="panel"><h3>Decision rules</h3><div class="rule-list">
+            <div><span>Repeated punches</span><strong>First + last</strong></div>
+            <div><span>One punch</span><strong>Fingerprint lost</strong></div>
+            <div><span>No punches</span><strong>Accountant decides</strong></div>
+            <div><span>Early overtime</span><strong>Max 60 min</strong></div>
+            <div><span>Late overtime</span><strong>Max 60 min</strong></div>
+            <div><span>Friday punch</span><strong>08:00 → 16:00</strong></div>
+          </div></article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/attendance.js"></script>
+  <script src="js/accountant.js"></script>
+</body>
+</html>
